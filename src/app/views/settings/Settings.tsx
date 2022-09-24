@@ -1,8 +1,12 @@
 import Button from '@suid/material/Button';
-import styles from './TopPage.module.scss';
+import { signInWithPopup } from 'firebase/auth';
+import { firebaseAuth, firebaseProvider } from '../../firebase';
+import styles from './Settings.module.scss';
 
 const SettingPage = () => {
-  const authGoogle = () => {};
+  const authGoogle = () => {
+    return signInWithPopup(firebaseAuth, firebaseProvider);
+  };
 
   return (
     <div class={styles.host}>

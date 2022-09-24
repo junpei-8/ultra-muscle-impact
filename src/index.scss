@@ -1,7 +1,8 @@
 html,
 body,
 .root,
-.app {
+.app,
+.app-main {
   height: 100%;
 }
 
@@ -14,6 +15,7 @@ a {
   text-decoration: none;
 }
 
-.margin-bottom {
-  margin-bottom: 20px;
+.app-main {
+  box-sizing: border-box;
+  padding-top: 40px;
 }
