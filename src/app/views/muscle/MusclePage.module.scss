@@ -9,7 +9,18 @@
   box-sizing: border-box;
 }
 
-.textField {
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.input {
   width: 100%;
   margin-bottom: 24px !important;
+}
+
+.levelSelector {
+  font-weight: 500;
 }

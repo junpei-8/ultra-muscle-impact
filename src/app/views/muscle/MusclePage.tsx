@@ -1,9 +1,11 @@
 import Button from '@suid/material/Button';
 import TextField from '@suid/material/TextField';
+import ToggleButton from '@suid/material/ToggleButton';
+import ToggleButtonGroup from '@suid/material/ToggleButtonGroup';
 import { useNavigate } from 'solid-app-router';
 import * as Tone from 'tone';
 import { mic, micRecorder } from '../../store/audio';
-import { getNumberOfTimes, setNumberOfTimes } from '../../store/muscle';
+import { getMaxCount, setMaxCount } from '../../store/muscle';
 import { setIsShowRootActions } from '../../store/root';
 import styles from './MusclePage.module.scss';
 
@@ -16,45 +18,57 @@ const MusclePage = () => {
   const [getMic, setMic] = mic;
   const [getMicRecorder] = micRecorder;
 
-  const updateNumberOfTimes = (event: Event) => {
-    setNumberOfTimes(Number((event.target as HTMLInputElement).value));
+  const updateMaxCount = (_, value: number) => {
+    if (value) setMaxCount(value);
   };
 
   const startMuscle = async () => {
     await Tone.start();
 
-    if (getNumberOfTimes() > 0) {
-      const userMedia = new Tone.UserMedia();
-      setMic(userMedia);
-      getMic()?.connect(getMicRecorder());
-      await getMic()?.open();
-      await getMicRecorder().start();
+    const userMedia = new Tone.UserMedia();
+    setMic(userMedia);
+    getMic()?.connect(getMicRecorder());
+    await getMic()?.open();
+    await getMicRecorder().start();
 
-      navigate('/action');
-    }
+    navigate('/action');
   };
 
   return (
     <div class={styles.host}>
-      <form>
+      <form class={styles.form}>
         <TextField
+          class={styles.input}
           required
           label="メニュー"
           defaultValue="スクワット"
-          class={styles.textField}
           InputProps={{
             readOnly: true,
           }}
         />
-        <TextField
-          required
-          label="回数"
-          type="number"
-          class={styles.textField}
-          value={getNumberOfTimes()}
-          onChange={updateNumberOfTimes}
-        />
-        <Button variant="contained" onClick={startMuscle}>
+
+        <ToggleButtonGroup
+          class={`${styles.input} ${styles.levelSelector}`}
+          color="primary"
+          exclusive
+          value={getMaxCount()}
+          onChange={updateMaxCount}
+        >
+          <ToggleButton value={10} aria-label="easy">
+            <span>イージー</span>
+          </ToggleButton>
+          <ToggleButton value={30} aria-label="normal">
+            <span>ノーマル</span>
+          </ToggleButton>
+          <ToggleButton value={50} aria-label="hard">
+            <span>ハード</span>
+          </ToggleButton>
+          <ToggleButton value={100} aria-label="super-muscle">
+            <span>あゝ、筋肉</span>
+          </ToggleButton>
+        </ToggleButtonGroup>
+
+        <Button class={styles.input} variant="contained" onClick={startMuscle}>
           筋トレ開始！
         </Button>
       </form>

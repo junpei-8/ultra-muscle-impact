@@ -11,7 +11,7 @@ import {
   micBlob,
   micRecorder,
 } from '../../store/audio';
-import { getNumberOfTimes } from '../../store/muscle';
+import { getMaxCount } from '../../store/muscle';
 import { setIsShowRootActions } from '../../store/root';
 import styles from './ActionPage.module.scss';
 
@@ -19,7 +19,7 @@ const App: Component = () => {
   const navigate = useNavigate();
 
   // カウント（回数）が格納されていない場合はトップページに遷移する
-  if (getNumberOfTimes() <= 0) {
+  if (getMaxCount() <= 0) {
     navigate('/'); // eslint-disable-next-line solid/components-return-once
     return <></>;
   }
@@ -110,7 +110,7 @@ const App: Component = () => {
 
   /** カウントの進捗状況を計算し、状態として管理する */
   const countProgress = createMemo(
-    () => (getCount() / getNumberOfTimes()) * 100 || 0,
+    () => (getCount() / getMaxCount()) * 100 || 0,
   );
 
   /** ビデオの進捗状況を計算し、状態として管理する */
@@ -125,7 +125,7 @@ const App: Component = () => {
   const countUp = () => {
     const count = getCount() + 1;
 
-    const maxCount = getNumberOfTimes();
+    const maxCount = getMaxCount();
 
     if (count >= maxCount) {
       // 最後のカウントの場合は動画を停止させない

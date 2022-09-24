@@ -1,5 +1,10 @@
 @import './utils/colors.scss';
 
+* {
+  // パフォーマンス的にあんまよくないけど
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
 html,
 body,
 #root,
@@ -14,11 +19,6 @@ header {
 
 body {
   margin: 0;
-  font-family: 'Noto Sans JP', sans-serif;
-}
-
-button,
-a {
   font-family: 'Noto Sans JP', sans-serif;
 }
 

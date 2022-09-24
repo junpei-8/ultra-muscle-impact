@@ -1,5 +1,5 @@
 import Button from '@suid/material/Button';
-import { Link, useNavigate } from 'solid-app-router';
+import { Link } from 'solid-app-router';
 import { createEffect, onMount } from 'solid-js';
 import WaveSurfer from 'wavesurfer.js';
 import {
