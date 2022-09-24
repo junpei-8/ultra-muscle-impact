@@ -14,7 +14,7 @@ const App: Component = () => {
     <div class="app">
       {isShowActions() ? <AppHeader /> : null}
 
-      <main>
+      <main class="app-main">
         <Routes>
           <Suspense fallback={<LoadingPage />}>
             {/* <Route path="/" element={<SettingPage />} /> */}

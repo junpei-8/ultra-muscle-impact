@@ -7,12 +7,12 @@ const AppFooter = () => {
     <footer class={styles.host}>
       <div class={styles.navItem}>
         <Link href="/">
-          <Button>マッスル</Button>
+          <Button class={styles.navButton}>マッスル</Button>
         </Link>
       </div>
       <div class={styles.navItem}>
         <Link href="/muscle/">
-          <Button>図鑑</Button>
+          <Button class={styles.navButton}>図鑑</Button>
         </Link>
       </div>
     </footer>
