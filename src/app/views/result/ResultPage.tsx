@@ -11,7 +11,7 @@ import { setIsShowRootActions } from '../../store/root';
 import styles from './ResultPage.module.scss';
 
 const ResultPage = () => {
-  // Header と Footer を隠す
+  // Header と Footer を表示させる
   setIsShowRootActions(true);
 
   const [getExplotionRecorder] = explotionRecorder;
