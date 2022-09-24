@@ -4,6 +4,7 @@ import AppFooter from './AppFooter';
 import AppHeader from './AppHeader';
 import { rootActionsState } from './store/root';
 import LoadingPage from './views/loading/LoadingPage';
+import SettingsPage from './views/settings/Settings';
 
 const MusclePage = lazy(() => import('./views/muscle/MusclePage'));
 
@@ -16,13 +17,16 @@ const App: Component = () => {
     <div class="app">
       {isShowActions() ? <AppHeader /> : null}
 
-      <Routes>
-        <Suspense fallback={<LoadingPage />}>
-          <Route path="/" element={<MusclePage />} />
-          <Route path="/loading" element={<LoadingPage />} />
-          <Route path="/action" element={<ActionPage />} />
-        </Suspense>
-      </Routes>
+      <main class="app-main">
+        <Routes>
+          <Suspense fallback={<LoadingPage />}>
+            <Route path="/" element={<MusclePage />} />
+            <Route path="/loading" element={<LoadingPage />} />
+            <Route path="/action" element={<ActionPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+          </Suspense>
+        </Routes>
+      </main>
 
       {isShowActions() ? <AppFooter /> : null}
     </div>
