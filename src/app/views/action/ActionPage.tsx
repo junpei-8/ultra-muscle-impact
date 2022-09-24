@@ -9,9 +9,10 @@ import {
   micBlob,
   micRecorder,
 } from '../../store/audio';
+import { getNumberOfTimes } from '../../store/muscle';
 
 const App: Component = () => {
-  const [count, setCount] = createSignal<number>(0);
+  const [getCount, setCount] = createSignal<number>(0);
   const [getMic] = mic;
   const [getMicRecorder] = micRecorder;
   const [getExplotionRecorder] = explotionRecorder;
@@ -37,6 +38,7 @@ const App: Component = () => {
       // 任意の秒数の音声データにするために倍速再生する
       const playbackRate = explotionPlayer.buffer.duration / lengthSeconds;
       explotionPlayer.playbackRate = playbackRate;
+
       // フェードアウトさせる
       explotionPlayer.fadeOut = Tone.Time(lengthSeconds).toSeconds();
 
@@ -78,30 +80,57 @@ const App: Component = () => {
     setExplotionPlayer(explotionPlayer);
   }
 
+  const [getPlayerElement, setPlayerElement] = createSignal<HTMLVideoElement>(
+    null!,
+  );
+
+  /** TODO: 状態か定数として持つ */
+  const videoSeconds = 8;
+
+  /** 現在のカウント / 最大のカウント数 を計算する */
+  const calcCountProgress = (count: number) => count / getNumberOfTimes();
+
+  /** 動画の秒数 / 現在の進捗の割合 現在の動画の秒数を計算する */
+  const calcPlayerTime = (count: number) =>
+    videoSeconds * calcCountProgress(count);
+
+  // カウントアップを検知
   const countUp = () => {
-    setCount(count() + 1);
+    setCount(getCount() + 1);
 
     // とりあえずデバッグ用に8回目で録音を止める
-    if (count() == 8) {
+    if (getCount() == 8) {
       stopRecordWithExplosionize();
     }
 
     // とりあえずデバッグ用に10回目でリザルト画面に遷移
-    if (count() == 10) {
+    if (getCount() == 10) {
       navigate('/result');
     }
+
+    // const count = getCount() + 1;
+
+    // console.log(calcCountProgress(count), calcPlayerTime(count));
+
+    // setCount(count);
   };
 
+  /** lottie-player にイベントリスナーを追加 */
   createEffect(() => {
-    // 自動検知
-    console.log(count());
+    const playerEl = getPlayerElement();
+    playerEl.currentTime = 1;
   });
 
+  const complete = () => {
+    console.log('complete!!!');
+  };
+
   return (
-    <>
-      <div>Count: {count()}</div>
-      <button onClick={() => countUp()}>up</button>
-    </>
+    <div>
+      <video ref={setPlayerElement} controls={false} onEnded={complete} />
+      <div>Count: {getCount()}</div>
+      <button onClick={countUp}>up</button>
+    </div>
   );
 };
 
