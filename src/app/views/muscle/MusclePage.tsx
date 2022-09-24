@@ -1,6 +1,6 @@
 import Button from '@suid/material/Button';
 import TextField from '@suid/material/TextField';
-import { Link } from 'solid-app-router';
+import { Link, useNavigate } from 'solid-app-router';
 import { JSX } from 'solid-js';
 import {
   getNumberOfTimes,
@@ -23,33 +23,48 @@ const MusclePage = () => {
     setSetCount(Number((e.target as HTMLInputElement).value));
   };
 
+  const navigate = useNavigate();
+
+  const navigation = () => {
+    if (!(getNumberOfTimes() === 0 || getSetCount() === 0)) {
+      navigate('/action');
+      // alert('フォームが入力されていません。');
+    }
+  };
+
   return (
     <div class={styles.container}>
-      <TextField
-        required
-        label="メニュー"
-        defaultValue="スクワット"
-        class={styles.textField}
-      />
-      <TextField
-        required
-        label="回数"
-        type="number"
-        class={styles.textField}
-        value={getNumberOfTimes()}
-        onChange={updateNumberOfTimes}
-      />
-      <TextField
-        required
-        label="セット数"
-        type="number"
-        class={styles.textField}
-        value={getSetCount()}
-        onChange={updateSetCount}
-      />
-      <Button variant="contained">
-        <Link href="/action">筋トレ開始！</Link>
-      </Button>
+      <form>
+        <TextField
+          required
+          label="メニュー"
+          defaultValue="スクワット"
+          class={styles.textField}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
+        <TextField
+          required
+          label="回数"
+          type="number"
+          class={styles.textField}
+          value={getNumberOfTimes()}
+          onChange={updateNumberOfTimes}
+        />
+        <TextField
+          required
+          label="セット数"
+          type="number"
+          class={styles.textField}
+          value={getSetCount()}
+          onChange={updateSetCount}
+        />
+        <Button variant="contained" onClick={navigation} type="submit">
+          {/* <Link href="/action">筋トレ開始！</Link> */}
+          筋トレ開始！
+        </Button>
+      </form>
     </div>
   );
 };
