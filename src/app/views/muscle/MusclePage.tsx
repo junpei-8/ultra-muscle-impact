@@ -2,12 +2,12 @@ import Button from '@suid/material/Button';
 import TextField from '@suid/material/TextField';
 import { Link } from 'solid-app-router';
 import { JSX } from 'solid-js';
-import { inputNumberOfTimes, inputSetCount } from '../../store/root';
+import { inputNumberOfTimes, inputSetCount } from '../../store/muscle';
 import styles from './MusclePage.module.scss';
 
 const MusclePage = () => {
-  const [numberOfTimes, setNumberOfTimes] = inputNumberOfTimes;
-  const [setCount, setSetCount] = inputSetCount;
+  const [getNumberOfTimes, setNumberOfTimes] = inputNumberOfTimes;
+  const [getSetCount, setSetCount] = inputSetCount;
 
   const updateNumberOfTimes: JSX.EventHandlerUnion<HTMLInputElement, Event> = (
     e,
@@ -19,10 +19,6 @@ const MusclePage = () => {
     e,
   ) => {
     setSetCount(Number((e.target as HTMLInputElement).value));
-  };
-
-  const submitMenu = () => {
-    console.log(numberOfTimes(), setCount());
   };
 
   return (
@@ -38,7 +34,7 @@ const MusclePage = () => {
         label="回数"
         type="number"
         class={styles.textField}
-        value={numberOfTimes()}
+        value={getNumberOfTimes()}
         onChange={updateNumberOfTimes}
       />
       <TextField
@@ -46,12 +42,12 @@ const MusclePage = () => {
         label="セット数"
         type="number"
         class={styles.textField}
+        value={getSetCount()}
         onChange={updateSetCount}
       />
       <Button variant="contained">
         <Link href="/action">筋トレ開始！</Link>
       </Button>
-      <Button onClick={submitMenu}>test</Button>
     </div>
   );
 };
