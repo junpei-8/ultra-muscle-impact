@@ -1,5 +1,5 @@
 import { useNavigate } from 'solid-app-router';
-import { Component, createSignal, createEffect } from 'solid-js';
+import { Component, createSignal } from 'solid-js';
 import * as Tone from 'tone';
 import VideoPath from '../../../assets/movie/Leg_Explosion.mp4';
 import {
@@ -15,10 +15,18 @@ import { setIsShowRootActions } from '../../store/root';
 import styles from './ActionPage.module.scss';
 
 const App: Component = () => {
+  const navigate = useNavigate();
+
+  // データが格納されていない場合はトップページに遷移する
+  if (getNumberOfTimes() <= 0) {
+    navigate('/'); // eslint-disable-next-line solid/components-return-once
+    return <></>;
+  }
+
   // Header と Footer を隠す
   setIsShowRootActions(false);
 
-  const [getCount, setCount] = createSignal<number>(0);
+  const [getCount, setCount] = createSignal(0);
   const [getMic] = mic;
   const [getMicRecorder] = micRecorder;
   const [getExplotionRecorder] = explotionRecorder;
@@ -26,8 +34,6 @@ const App: Component = () => {
 
   const [, setExplotionBlob] = explotionBlob;
   const [, setMicBlob] = micBlob;
-
-  const navigate = useNavigate();
 
   const stopRecordWithExplosionize = async () => {
     // 録音止める
