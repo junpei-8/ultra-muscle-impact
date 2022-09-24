@@ -21,7 +21,7 @@ const ResultPage = () => {
   getExplotionRecorder().start();
   getExplotionPlayer()!.start('1s');
 
-  let afterWaveform: { load: (arg0: string) => void } | null = null;
+  let afterWaveform: { load: (arg: string) => void } | null = null;
 
   onMount(() => {
     afterWaveform = WaveSurfer.create({
@@ -32,9 +32,8 @@ const ResultPage = () => {
   });
 
   createEffect(() => {
-    if (getExplotionBlob() != null) {
-      afterWaveform?.load(getExplotionBlob()!);
-    }
+    const blob = getExplotionBlob();
+    if (blob) afterWaveform?.load(blob);
   });
 
   return (
