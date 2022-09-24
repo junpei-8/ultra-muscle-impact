@@ -11,11 +11,11 @@ import {
 
 const App: Component = () => {
   const [count, setCount] = createSignal<number>(0);
-  const [getMic, setMic] = mic;
-  const [getMicRecorder, setMicRecorder] = micRecorder;
-  const [getExplotionRecorder, setExplotionRecorder] = explotionRecorder;
-  const [getMicPlayer, setMicPlayer] = micPlayer;
-  const [getExplotionPlayer, setExplotionPlayer] = explotionPlayer;
+  const [getMic] = mic;
+  const [getMicRecorder] = micRecorder;
+  const [getExplotionRecorder] = explotionRecorder;
+  const [, setMicPlayer] = micPlayer;
+  const [, setExplotionPlayer] = explotionPlayer;
 
   const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ const App: Component = () => {
       });
       const reverbNode = new Tone.Reverb();
       // スピーカーが壊れないようにリミッターをかませる
-      const limiterNode = new Tone.Limiter(-10.0);
+      const limiterNode = new Tone.Limiter(0.0);
 
       // エフェクターをつなげていく
       explotionPlayer.connect(upGainNode);
