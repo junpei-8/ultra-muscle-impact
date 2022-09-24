@@ -29,7 +29,7 @@ const App: Component = () => {
 
   const navigate = useNavigate();
 
-  async function stopRecordWithExplosionize(): Promise<void> {
+  const stopRecordWithExplosionize = async () => {
     // 録音止める
     getMic()!.close();
     const micBlob = await getMicRecorder().stop();
@@ -50,12 +50,15 @@ const App: Component = () => {
 
       // 音量をめちゃくちゃ上げる
       const upGainNode = new Tone.Gain({ gain: 1024, convert: true });
+
       // (倍速速度 + 2) * -12 くらいがちょうどいい
       const pitchDownNode = new Tone.PitchShift({
         pitch: -12 * playbackRate + 2.0,
         wet: 1.0,
       });
+
       const reverbNode = new Tone.Reverb();
+
       // スピーカーが壊れないようにリミッターをかませる
       const limiterNode = new Tone.Limiter(0.0);
 
@@ -84,57 +87,63 @@ const App: Component = () => {
     };
 
     setExplotionPlayer(explotionPlayer);
-  }
+  };
 
   const [getPlayerElement, setPlayerElement] = createSignal<HTMLVideoElement>(
     null!,
   );
 
-  /** TODO: 状態か定数として持つ */
-  const videoSeconds = 8;
+  /** 動画ロード時に代入される */
+  let maxVideoTime = 0;
 
-  /** 現在のカウント / 最大のカウント数 を計算する */
-  const calcCountProgress = (count: number) => count / getNumberOfTimes();
+  /** 動画を停止させる時間を代入する */
+  let limitVideoTime = 0;
 
-  /** 動画の秒数 / 現在の進捗の割合 現在の動画の秒数を計算する */
-  const calcPlayerTime = (count: number) =>
-    videoSeconds * calcCountProgress(count);
-
-  // カウントアップを検知
+  /** カウントする */
   const countUp = () => {
-    setCount(getCount() + 1);
+    const count = getCount() + 1;
 
-    // とりあえずデバッグ用に8回目で録音を止める
-    if (getCount() == 8) {
-      stopRecordWithExplosionize();
-    }
+    setCount(count);
 
-    // とりあえずデバッグ用に10回目でリザルト画面に遷移
-    if (getCount() == 10) {
-      navigate('/result');
-    }
+    const maxCount = getNumberOfTimes();
 
-    // const count = getCount() + 1;
+    if (count === maxCount) return (limitVideoTime = Infinity);
 
-    // console.log(calcCountProgress(count), calcPlayerTime(count));
+    // 達成率が８割になったら録音を止める
+    if (count >= maxCount * 0.8) stopRecordWithExplosionize();
 
-    // setCount(count);
+    limitVideoTime = maxVideoTime * (count / maxCount);
+
+    getPlayerElement().play();
   };
 
-  /** lottie-player にイベントリスナーを追加 */
-  createEffect(() => {
+  /** 動画がロードされたタイミングで動画の秒数を取得する */
+  const initMaxVideoTime = () => {
     const playerEl = getPlayerElement();
-    playerEl.currentTime = 1;
-  });
+    maxVideoTime = playerEl.duration;
+  };
+
+  /** 現在の動画の再生時間を更新する */
+  const updateCurrentVideoTime = () => {
+    const playerEl = getPlayerElement();
+
+    // 現在の動画の再生時間が停止させる時間を超えていない場合は何もしない
+    if (playerEl.currentTime < limitVideoTime) return;
+
+    playerEl.pause();
+  };
 
   const complete = () => {
-    console.log('complete!!!');
+    console.log('complete');
+    navigate('/result');
   };
 
   return (
     <div class={styles.host}>
       <video
         ref={setPlayerElement}
+        onLoadedData={initMaxVideoTime}
+        onTimeUpdate={updateCurrentVideoTime}
         src={VideoPath}
         controls={false}
         onEnded={complete}
