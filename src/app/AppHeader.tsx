@@ -3,7 +3,7 @@ import AppBar from '@suid/material/AppBar';
 const AppHeader = () => {
   return (
     <header>
-      <AppBar>App Bar</AppBar>
+      <AppBar>App Bar（Github Action Test）</AppBar>
     </header>
   );
 };
