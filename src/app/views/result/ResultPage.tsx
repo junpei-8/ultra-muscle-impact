@@ -1,24 +1,24 @@
 import Button from '@suid/material/Button';
 import { Link, useNavigate } from 'solid-app-router';
-import { createEffect, onMount, createSignal } from 'solid-js';
+import { createEffect, onMount } from 'solid-js';
 import WaveSurfer from 'wavesurfer.js';
 import {
   explotionBlob,
   explotionPlayer,
   explotionRecorder,
 } from '../../store/audio';
-import { setIsShowRootActions } from '../../store/root';
+import { setIsShowRootActions, setOverlayElement } from '../../store/root';
+import ResultOverlay from './ResultOverlay';
 import styles from './ResultPage.module.scss';
 
 const ResultPage = () => {
-  const navigate = useNavigate();
-
   const [getExplotionRecorder] = explotionRecorder;
   const [getExplotionBlob] = explotionBlob;
-  const [getIsShowGif, setIsShowGif] = createSignal<boolean>(true);
 
   // Header と Footer を表示させる
   setIsShowRootActions(true);
+
+  setOverlayElement(<ResultOverlay />);
 
   const [getExplotionPlayer] = explotionPlayer;
   getExplotionRecorder().start();
@@ -37,25 +37,18 @@ const ResultPage = () => {
   createEffect(() => {
     const blob = getExplotionBlob();
     if (blob) afterWaveform?.load(blob);
-    // setTimeout(() => {
-    //   console.log('is false');
-    //   setIsShowGif(false);
-    // }, 3000);
   });
 
   // アクセス時に
 
   return (
-    <div>
-      <div class={getIsShowGif() ? styles.show : styles.hide}>
-        <img src="src/assets/images/explosion.gif" alt="" />
-      </div>
+    <div class={styles.host}>
       <h2>
         おめでとう！！
         <br />
         筋肉が喜んでいるよ！！
       </h2>
-      <div>
+      <div class={styles.imgFrame}>
         <img
           src="src/assets/images/result.gif"
           alt=""

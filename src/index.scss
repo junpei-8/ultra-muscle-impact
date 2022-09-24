@@ -19,8 +19,15 @@ body {
 
 button,
 a {
-  text-decoration: none;
   font-family: 'Noto Sans JP', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  &:visited,
+  &:active {
+    color: inherit;
+  }
 }
 
 .app-main {

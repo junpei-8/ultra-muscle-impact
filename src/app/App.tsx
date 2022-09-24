@@ -1,8 +1,8 @@
 import { Route, Routes } from 'solid-app-router';
-import { Component, lazy, Suspense } from 'solid-js';
+import { Component, createEffect, createMemo, lazy, Suspense } from 'solid-js';
 import AppFooter from './AppFooter';
 import AppHeader from './AppHeader';
-import { getIsShowRootActions } from './store/root';
+import { getIsShowRootActions, getOverlayElement } from './store/root';
 import CollectionPage from './views/collection/CollectionPage';
 import LoadingPage from './views/loading/LoadingPage';
 import ResultPage from './views/result/ResultPage';
@@ -15,6 +15,8 @@ const ActionPage = lazy(() => import('./views/action/ActionPage'));
 const App: Component = () => {
   return (
     <div class="app">
+      {getOverlayElement()}
+
       {getIsShowRootActions() ? <AppHeader /> : null}
 
       <main class="app-main">

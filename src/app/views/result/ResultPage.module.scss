@@ -1,12 +1,8 @@
-a {
-  color: #fff !important;
-}
-
-.container {
+.host {
   width: 100%;
   padding: 18px;
   text-align: center;
-  height: 100vh;
+  height: 100%;
   background-color: #fbfafb;
 }
 
@@ -20,6 +16,7 @@ a {
   background-color: #fbfafb;
 }
 
-.hide {
-  display: none;
+.imgFrame {
+  text-align: center;
+  border-radius: 8px;
 }
