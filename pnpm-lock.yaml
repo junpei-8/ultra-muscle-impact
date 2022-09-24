@@ -14,15 +14,19 @@ specifiers:
   sass: ^1.55.0
   solid-app-router: ^0.4.2
   solid-js: ^1.5.1
+  tone: ^14.7.77
   typescript: ^4.8.2
   vite: ^3.0.9
   vite-plugin-solid: ^2.3.0
+  wavesurfer.js: ^6.2.0
 
 dependencies:
   '@suid/icons-material': 0.4.0_solid-js@1.5.1
   '@suid/material': 0.6.2_solid-js@1.5.1
   solid-app-router: 0.4.2_solid-js@1.5.1
   solid-js: 1.5.1
+  tone: 14.7.77
+  wavesurfer.js: 6.2.0
 
 devDependencies:
   '@typescript-eslint/eslint-plugin': 5.38.0_aarjygsz6gts43wtwsljfcbzn4
@@ -311,6 +315,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@babel/runtime/7.19.0:
+    resolution: {integrity: sha512-eR8Lo9hnDS7tqkO7NsV+mKvCmv5boaXFSZ70DnfhcgiEne8hv9oCEd36Klw74EtizEqLsy4YnW8UWwpBVolHZA==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.9
+    dev: false
 
   /@babel/template/7.18.6:
     resolution: {integrity: sha512-JoDWzPe+wgBsTTgdnIma3iHNFC7YVJoPssVBDjiHfNlyt4YcunDtcDOUmfVDfCK5MfdsaIoX9PkijPhjH3nYUw==}
@@ -779,6 +790,14 @@ packages:
       es-abstract: 1.20.3
       es-shim-unscopables: 1.0.0
     dev: true
+
+  /automation-events/4.0.21:
+    resolution: {integrity: sha512-VJdSzclxoBVAqE4UAwmqPLHAM3EI2iYhZ2MADdQnjFlW/GE17B47aQ6y9JE9up2bf8f7I5RfqGhJM464jPMzww==}
+    engines: {node: '>=12.20.1'}
+    dependencies:
+      '@babel/runtime': 7.19.0
+      tslib: 2.4.0
+    dev: false
 
   /babel-plugin-jsx-dom-expressions/0.33.12_@babel+core@7.18.6:
     resolution: {integrity: sha512-FQeNcBvC+PrPYGpeUztI7AiiAqJL2H8e7mL4L6qHZ7B4wZfbgyREsHZwKmmDqxAehlyAUolTdhDNk9xfyHdIZw==}
@@ -2398,6 +2417,10 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /regenerator-runtime/0.13.9:
+    resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
+    dev: false
+
   /regexp.prototype.flags/1.4.3:
     resolution: {integrity: sha512-fjggEOO3slI6Wvgjwflkc4NFRCTZAu5CnNfBd5qOMYhWdn67nJBBu34/TkD++eeFmd8C9r9jfXJ27+nSiRkSUA==}
     engines: {node: '>= 0.4'}
@@ -2548,6 +2571,14 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /standardized-audio-context/25.3.32:
+    resolution: {integrity: sha512-TtnRZGzHaTowIrEPo7w7WK74TrrY885NpplFpD79h85YuUAUBrUGifHlh8GK11oyZHfwDtCV29yFPfIHWotrXg==}
+    dependencies:
+      '@babel/runtime': 7.19.0
+      automation-events: 4.0.21
+      tslib: 2.4.0
+    dev: false
+
   /string.prototype.trimend/1.0.5:
     resolution: {integrity: sha512-I7RGvmjV4pJ7O3kdf+LXFpVfdNOxtCW/2C8f6jNiW4+PQchwxkCDzlk1/7p+Wl4bqFIZeF47qAHXLuHHWKAxog==}
     dependencies:
@@ -2622,6 +2653,13 @@ packages:
       is-number: 7.0.0
     dev: true
 
+  /tone/14.7.77:
+    resolution: {integrity: sha512-tCfK73IkLHyzoKUvGq47gyDyxiKLFvKiVCOobynGgBB9Dl0NkxTM2p+eRJXyCYrjJwy9Y0XCMqD3uOYsYt2Fdg==}
+    dependencies:
+      standardized-audio-context: 25.3.32
+      tslib: 2.4.0
+    dev: false
+
   /ts-toolbelt/9.6.0:
     resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
     dev: true
@@ -2638,6 +2676,10 @@ packages:
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
     dev: true
+
+  /tslib/2.4.0:
+    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
+    dev: false
 
   /tsutils/3.21.0_typescript@4.8.2:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
@@ -2754,6 +2796,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /wavesurfer.js/6.2.0:
+    resolution: {integrity: sha512-yuOteX+RKgJl4p5V+YNflm79QRNFWpNo0UHtKaGf1G05qMNChfbcJU0MZYL7+OJTHgYszYqN3dgUXjugYd/Iew==}
+    dev: false
 
   /which-boxed-primitive/1.0.2:
     resolution: {integrity: sha512-bwZdv0AKLpplFY2KZRX6TvyuN7ojjr7lwkg6ml0roIy9YeuSr7JS372qlNW18UQYzgYK9ziGcerWqZOmEn9VNg==}
