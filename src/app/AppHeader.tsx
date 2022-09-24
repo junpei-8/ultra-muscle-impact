@@ -1,5 +1,11 @@
+import AppBar from '@suid/material/AppBar';
+
 const AppHeader = () => {
-  return <footer>{}</footer>;
+  return (
+    <header>
+      <AppBar>App Bar</AppBar>
+    </header>
+  );
 };
 
 export default AppHeader;
