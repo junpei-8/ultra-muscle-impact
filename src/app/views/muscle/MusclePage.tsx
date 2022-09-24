@@ -2,13 +2,15 @@ import Button from '@suid/material/Button';
 import TextField from '@suid/material/TextField';
 import { Link } from 'solid-app-router';
 import { JSX } from 'solid-js';
-import { inputNumberOfTimes, inputSetCount } from '../../store/muscle';
+import {
+  getNumberOfTimes,
+  setNumberOfTimes,
+  getSetCount,
+  setSetCount,
+} from '../../store/muscle';
 import styles from './MusclePage.module.scss';
 
 const MusclePage = () => {
-  const [getNumberOfTimes, setNumberOfTimes] = inputNumberOfTimes;
-  const [getSetCount, setSetCount] = inputSetCount;
-
   const updateNumberOfTimes: JSX.EventHandlerUnion<HTMLInputElement, Event> = (
     e,
   ) => {
