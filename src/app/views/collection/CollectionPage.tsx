@@ -14,17 +14,17 @@ const CollectionPage = () => {
 
   const [collections] = createSignal([
     {
-      client_id: 'aaaa',
+      client_id: 'Yu-za',
       explosion_timestamp: '2022-09-24T06:46:18.199191+00:00',
       muscle_category: 'pectoralis',
     },
     {
-      client_id: 'bbbb',
+      client_id: 'Yu-za',
       explosion_timestamp: '2022-09-24T06:46:18.199191+00:00',
       muscle_category: 'pectoralis',
     },
     {
-      client_id: 'cccc',
+      client_id: 'Yu-za',
       explosion_timestamp: '2022-09-24T06:46:18.199191+00:00',
       muscle_category: 'pectoralis',
     },
