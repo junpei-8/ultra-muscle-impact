@@ -1,6 +1,6 @@
 import Button from '@suid/material/Button';
 import { Link, useNavigate } from 'solid-app-router';
-import { createEffect, onMount } from 'solid-js';
+import { createEffect, onMount, createSignal } from 'solid-js';
 import WaveSurfer from 'wavesurfer.js';
 import {
   explotionBlob,
@@ -15,6 +15,7 @@ const ResultPage = () => {
 
   const [getExplotionRecorder] = explotionRecorder;
   const [getExplotionBlob] = explotionBlob;
+  const [getIsShowGif, setIsShowGif] = createSignal<boolean>(true);
 
   // Header と Footer を表示させる
   setIsShowRootActions(true);
@@ -36,10 +37,19 @@ const ResultPage = () => {
   createEffect(() => {
     const blob = getExplotionBlob();
     if (blob) afterWaveform?.load(blob);
+    // setTimeout(() => {
+    //   console.log('is false');
+    //   setIsShowGif(false);
+    // }, 3000);
   });
 
+  // アクセス時に
+
   return (
-    <div class={styles.container}>
+    <div>
+      <div class={getIsShowGif() ? styles.show : styles.hide}>
+        <img src="src/assets/images/explosion.gif" alt="" />
+      </div>
       <h2>
         おめでとう！！
         <br />
