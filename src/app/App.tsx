@@ -4,6 +4,7 @@ import AppFooter from './AppFooter';
 import AppHeader from './AppHeader';
 import { rootActionsState } from './store/root';
 import LoadingPage from './views/loading/LoadingPage';
+import ResultPage from './views/result/ResultPage';
 import SettingsPage from './views/settings/Settings';
 
 const MusclePage = lazy(() => import('./views/muscle/MusclePage'));
@@ -23,6 +24,7 @@ const App: Component = () => {
             <Route path="/" element={<MusclePage />} />
             <Route path="/loading" element={<LoadingPage />} />
             <Route path="/action" element={<ActionPage />} />
+            <Route path="/result" element={<ResultPage />} />
             <Route path="/settings" element={<SettingsPage />} />
           </Suspense>
         </Routes>
