@@ -2,10 +2,11 @@ import { useNavigate } from 'solid-app-router';
 import { Component, createSignal, createEffect } from 'solid-js';
 import * as Tone from 'tone';
 import {
+  explotionBlob,
   explotionPlayer,
   explotionRecorder,
   mic,
-  micPlayer,
+  micBlob,
   micRecorder,
 } from '../../store/audio';
 
@@ -14,8 +15,10 @@ const App: Component = () => {
   const [getMic] = mic;
   const [getMicRecorder] = micRecorder;
   const [getExplotionRecorder] = explotionRecorder;
-  const [, setMicPlayer] = micPlayer;
   const [, setExplotionPlayer] = explotionPlayer;
+
+  const [, setExplotionBlob] = explotionBlob;
+  const [, setMicBlob] = micBlob;
 
   const navigate = useNavigate();
 
@@ -25,11 +28,10 @@ const App: Component = () => {
     const micBlob = await getMicRecorder().stop();
     const micBlobUrl = URL.createObjectURL(micBlob);
 
+    setMicBlob(micBlobUrl);
+
     // 爆発音の長さ(秒)
     const lengthSeconds = 4.0;
-
-    const micPlayer = new Tone.Player(micBlobUrl);
-    setMicPlayer(micPlayer);
 
     const explotionPlayer = new Tone.Player(micBlobUrl, () => {
       // 任意の秒数の音声データにするために倍速再生する
@@ -40,7 +42,7 @@ const App: Component = () => {
 
       // 音量をめちゃくちゃ上げる
       const upGainNode = new Tone.Gain({ gain: 1024, convert: true });
-      // (倍速速度 + 1) * -12 くらいがちょうどいい
+      // (倍速速度 + 2) * -12 くらいがちょうどいい
       const pitchDownNode = new Tone.PitchShift({
         pitch: -12 * playbackRate + 2.0,
         wet: 1.0,
@@ -60,6 +62,18 @@ const App: Component = () => {
 
       limiterNode.toDestination();
     });
+
+    explotionPlayer.onstop = function () {
+      // 再生が終わってもリバーブがあるので追加で1秒くらい待つ
+      setTimeout(() => {
+        getExplotionRecorder()
+          .stop()
+          .then((explotionBlob) => {
+            const explotionBlobUrl = URL.createObjectURL(explotionBlob);
+            setExplotionBlob(explotionBlobUrl);
+          });
+      }, 1000);
+    };
 
     setExplotionPlayer(explotionPlayer);
   }

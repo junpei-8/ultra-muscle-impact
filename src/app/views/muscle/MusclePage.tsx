@@ -16,7 +16,7 @@ const MusclePage = () => {
   const navigate = useNavigate();
 
   const [getMic, setMic] = mic;
-  const [getMicRecorder, setMicRecorder] = micRecorder;
+  const [getMicRecorder] = micRecorder;
 
   const updateNumberOfTimes: JSX.EventHandlerUnion<HTMLInputElement, Event> = (
     e,
@@ -31,8 +31,9 @@ const MusclePage = () => {
   };
 
   const startMuscle = async () => {
+    await Tone.start();
+
     if (!(getNumberOfTimes() === 0 || getSetCount() === 0)) {
-      await Tone.start();
       const userMedia = new Tone.UserMedia();
       setMic(userMedia);
       getMic()?.connect(getMicRecorder());
