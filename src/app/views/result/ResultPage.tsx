@@ -1,20 +1,17 @@
 import Button from '@suid/material/Button';
 import { Link } from 'solid-app-router';
 import { createEffect, onMount } from 'solid-js';
-import * as Tone from 'tone';
 import WaveSurfer from 'wavesurfer.js';
 import {
   explotionBlob,
   explotionPlayer,
   explotionRecorder,
-  micBlob,
 } from '../../store/audio';
 import styles from './ResultPage.module.scss';
 
 const ResultPage = () => {
   const [getExplotionRecorder] = explotionRecorder;
   const [getExplotionBlob] = explotionBlob;
-  const [getMicBlob] = micBlob;
 
   const [getExplotionPlayer] = explotionPlayer;
   getExplotionRecorder().start();
