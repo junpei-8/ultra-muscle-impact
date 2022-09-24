@@ -2,14 +2,17 @@ import { Route, Routes } from 'solid-app-router';
 import { Component, lazy, Suspense } from 'solid-js';
 import AppFooter from './AppFooter';
 import AppHeader from './AppHeader';
+import { rootActionsState } from './store/root';
 import LoadingPage from './views/loading/LoadingPage';
 
 const MusclePage = lazy(() => import('./views/muscle/MusclePage'));
 
 const App: Component = () => {
+  const [isShowActions] = rootActionsState;
+
   return (
     <div class="app">
-      <AppHeader />
+      {isShowActions() ? <AppHeader /> : null}
 
       <main>
         <Routes>
@@ -21,7 +24,7 @@ const App: Component = () => {
         </Routes>
       </main>
 
-      <AppFooter />
+      {isShowActions() ? <AppFooter /> : null}
     </div>
   );
 };
