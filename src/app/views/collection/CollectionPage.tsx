@@ -29,6 +29,7 @@ const CollectionPage = () => {
       muscle_category: 'pectoralis',
     },
   ]);
+
   return (
     <div class={styles.wrap}>
       <For each={collections()}>

@@ -1,5 +1,12 @@
+import LinearProgress from '@suid/material/LinearProgress';
 import { useNavigate } from 'solid-app-router';
-import { Component, createSignal } from 'solid-js';
+import {
+  Component,
+  createMemo,
+  createReaction,
+  createSelector,
+  createSignal,
+} from 'solid-js';
 import * as Tone from 'tone';
 import VideoPath from '../../../assets/movie/Leg_Explosion.mp4';
 import {
@@ -105,17 +112,31 @@ const App: Component = () => {
   /** 動画を停止させる時間を代入する */
   let limitVideoTime = 0;
 
+  const [getCurrentVideoTime, setCurrentVideoTime] = createSignal(0);
+
+  /** カウントの進捗状況を計算し、状態として管理する */
+  const countProgress = createMemo(
+    () => (getCount() / getNumberOfTimes()) * 100 || 0,
+  );
+
+  /** ビデオの進捗状況を計算し、状態として管理する */
+  const videoTimeProgress = createMemo(() =>
+    Math.min(
+      (getCurrentVideoTime() / maxVideoTime) * 100 || 0,
+      countProgress(),
+    ),
+  );
+
   /** カウントする */
   const countUp = () => {
     const count = getCount() + 1;
 
     const maxCount = getNumberOfTimes();
 
-    console.log(count, maxCount);
-
     if (count >= maxCount) {
       // 最後のカウントの場合は動画を停止させない
       limitVideoTime = Infinity;
+      getPlayerElement().play();
       setCount(maxCount);
       return;
     }
@@ -128,8 +149,6 @@ const App: Component = () => {
     getPlayerElement().play();
 
     setCount(count);
-
-    console.log(count);
   };
 
   /** 動画がロードされたタイミングで動画の秒数を取得する */
@@ -142,14 +161,15 @@ const App: Component = () => {
   const updateCurrentVideoTime = () => {
     const playerEl = getPlayerElement();
 
-    // 現在の動画の再生時間が停止させる時間を超えていない場合は何もしない
-    if (playerEl.currentTime < limitVideoTime) return;
+    const currTime = playerEl.currentTime || 0;
 
-    playerEl.pause();
+    setCurrentVideoTime(currTime);
+
+    // 現在の動画の再生時間が停止させる時間と同じになったら動画を停止させる
+    if (limitVideoTime <= currTime) playerEl.pause();
   };
 
   const complete = () => {
-    console.log('complete');
     navigate('/result');
   };
 
@@ -164,8 +184,16 @@ const App: Component = () => {
         onEnded={complete}
         class={styles.video}
       />
-      <div>Count: {getCount()}</div>
+
       <button onClick={countUp}>up</button>
+
+      <LinearProgress
+        class={styles.progress}
+        color="success"
+        variant="buffer"
+        value={videoTimeProgress()}
+        valueBuffer={countProgress()}
+      />
     </div>
   );
 };
