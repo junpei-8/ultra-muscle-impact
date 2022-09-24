@@ -17,7 +17,7 @@ import styles from './ActionPage.module.scss';
 const App: Component = () => {
   const navigate = useNavigate();
 
-  // データが格納されていない場合はトップページに遷移する
+  // カウント（回数）が格納されていない場合はトップページに遷移する
   if (getNumberOfTimes() <= 0) {
     navigate('/'); // eslint-disable-next-line solid/components-return-once
     return <></>;
@@ -109,11 +109,16 @@ const App: Component = () => {
   const countUp = () => {
     const count = getCount() + 1;
 
-    setCount(count);
-
     const maxCount = getNumberOfTimes();
 
-    if (count === maxCount) return (limitVideoTime = Infinity);
+    console.log(count, maxCount);
+
+    if (count >= maxCount) {
+      // 最後のカウントの場合は動画を停止させない
+      limitVideoTime = Infinity;
+      setCount(maxCount);
+      return;
+    }
 
     // 達成率が８割になったら録音を止める
     if (count >= maxCount * 0.8) stopRecordWithExplosionize();
@@ -121,6 +126,10 @@ const App: Component = () => {
     limitVideoTime = maxVideoTime * (count / maxCount);
 
     getPlayerElement().play();
+
+    setCount(count);
+
+    console.log(count);
   };
 
   /** 動画がロードされたタイミングで動画の秒数を取得する */

@@ -1,5 +1,5 @@
 import Button from '@suid/material/Button';
-import { Link } from 'solid-app-router';
+import { Link, useNavigate } from 'solid-app-router';
 import { createEffect, onMount } from 'solid-js';
 import WaveSurfer from 'wavesurfer.js';
 import {
@@ -11,15 +11,17 @@ import { setIsShowRootActions } from '../../store/root';
 import styles from './ResultPage.module.scss';
 
 const ResultPage = () => {
-  // Header と Footer を表示させる
-  setIsShowRootActions(true);
+  const navigate = useNavigate();
 
   const [getExplotionRecorder] = explotionRecorder;
   const [getExplotionBlob] = explotionBlob;
 
+  // Header と Footer を表示させる
+  setIsShowRootActions(true);
+
   const [getExplotionPlayer] = explotionPlayer;
   getExplotionRecorder().start();
-  getExplotionPlayer()!.start('1s');
+  getExplotionPlayer()?.start('1s');
 
   let afterWaveform: { load: (arg: string) => void } | null = null;
 
