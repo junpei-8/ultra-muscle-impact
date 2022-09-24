@@ -8,27 +8,27 @@ import styles from './AppFooter.module.scss';
 const AppFooter = () => {
   return (
     <footer class={styles.host}>
-      <div class={styles.navItem}>
-        <Link href="/">
-          <Button>
-            <PersonIcon />
-            <p>マッスル</p>
+      <div class={styles.nav}>
+        <Link class={styles.link} href="/">
+          <Button class={styles.button}>
+            <PersonIcon class={styles.icon} />
+            <span class={styles.label}>マッスル</span>
           </Button>
         </Link>
       </div>
-      <div class={styles.navItem}>
-        <Link href="/muscle/">
-          <Button>
-            <LibraryBooksIcon />
-            <p>図鑑</p>
+      <div class={styles.nav}>
+        <Link class={styles.link} href="/muscle-collection/">
+          <Button class={styles.button}>
+            <LibraryBooksIcon class={styles.icon} />
+            <span class={styles.label}>図鑑</span>
           </Button>
         </Link>
       </div>
-      <div class={styles.navItem}>
-        <Link href="/muscle/">
-          <Button>
-            <SettingsIcon />
-            <p>設定</p>
+      <div class={styles.nav}>
+        <Link class={styles.link} href="/settings/">
+          <Button class={styles.button}>
+            <SettingsIcon class={styles.icon} />
+            <span class={styles.label}>設定</span>
           </Button>
         </Link>
       </div>
