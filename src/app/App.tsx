@@ -3,6 +3,7 @@ import { Component, lazy, Suspense } from 'solid-js';
 import AppFooter from './AppFooter';
 import AppHeader from './AppHeader';
 import LoadingPage from './views/loading/LoadingPage';
+import TrainingPage from './views/training/TrainingPage';
 
 const MusclePage = lazy(() => import('./views/muscle/MusclePage'));
 
@@ -14,6 +15,7 @@ const App: Component = () => {
       <Routes>
         <Suspense fallback={<LoadingPage />}>
           <Route path="/" element={<MusclePage />} />
+          <Route path="/training" element={<TrainingPage />} />
           <Route path="/loading" element={<LoadingPage />} />
         </Suspense>
       </Routes>
