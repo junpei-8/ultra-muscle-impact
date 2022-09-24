@@ -3,6 +3,7 @@ import { Component, lazy, Suspense } from 'solid-js';
 import AppFooter from './AppFooter';
 import AppHeader from './AppHeader';
 import { getIsShowRootActions } from './store/root';
+import CollectionPage from './views/collection/CollectionPage';
 import LoadingPage from './views/loading/LoadingPage';
 import ResultPage from './views/result/ResultPage';
 import SettingsPage from './views/settings/Settings';
@@ -23,6 +24,7 @@ const App: Component = () => {
             <Route path="/loading" element={<LoadingPage />} />
             <Route path="/action" element={<ActionPage />} />
             <Route path="/result" element={<ResultPage />} />
+            <Route path="/muscle-collection" element={<CollectionPage />} />
             <Route path="/settings" element={<SettingsPage />} />
           </Suspense>
         </Routes>
