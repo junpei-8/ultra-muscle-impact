@@ -1,21 +1,31 @@
 import { useNavigate } from 'solid-app-router';
 import { Component, createSignal, createEffect } from 'solid-js';
 import * as Tone from 'tone';
+import VideoPath from '../../../assets/movie/Leg_Explosion.mp4';
 import {
+  explotionBlob,
   explotionPlayer,
   explotionRecorder,
   mic,
-  micPlayer,
+  micBlob,
   micRecorder,
 } from '../../store/audio';
+import { getNumberOfTimes } from '../../store/muscle';
+import { setIsShowRootActions } from '../../store/root';
+import styles from './ActionPage.module.scss';
 
 const App: Component = () => {
-  const [count, setCount] = createSignal<number>(0);
-  const [getMic, setMic] = mic;
-  const [getMicRecorder, setMicRecorder] = micRecorder;
-  const [getExplotionRecorder, setExplotionRecorder] = explotionRecorder;
-  const [getMicPlayer, setMicPlayer] = micPlayer;
-  const [getExplotionPlayer, setExplotionPlayer] = explotionPlayer;
+  // Header と Footer を隠す
+  setIsShowRootActions(false);
+
+  const [getCount, setCount] = createSignal<number>(0);
+  const [getMic] = mic;
+  const [getMicRecorder] = micRecorder;
+  const [getExplotionRecorder] = explotionRecorder;
+  const [, setExplotionPlayer] = explotionPlayer;
+
+  const [, setExplotionBlob] = explotionBlob;
+  const [, setMicBlob] = micBlob;
 
   const navigate = useNavigate();
 
@@ -25,29 +35,29 @@ const App: Component = () => {
     const micBlob = await getMicRecorder().stop();
     const micBlobUrl = URL.createObjectURL(micBlob);
 
+    setMicBlob(micBlobUrl);
+
     // 爆発音の長さ(秒)
     const lengthSeconds = 4.0;
-
-    const micPlayer = new Tone.Player(micBlobUrl);
-    setMicPlayer(micPlayer);
 
     const explotionPlayer = new Tone.Player(micBlobUrl, () => {
       // 任意の秒数の音声データにするために倍速再生する
       const playbackRate = explotionPlayer.buffer.duration / lengthSeconds;
       explotionPlayer.playbackRate = playbackRate;
+
       // フェードアウトさせる
       explotionPlayer.fadeOut = Tone.Time(lengthSeconds).toSeconds();
 
       // 音量をめちゃくちゃ上げる
       const upGainNode = new Tone.Gain({ gain: 1024, convert: true });
-      // (倍速速度 + 1) * -12 くらいがちょうどいい
+      // (倍速速度 + 2) * -12 くらいがちょうどいい
       const pitchDownNode = new Tone.PitchShift({
         pitch: -12 * playbackRate + 2.0,
         wet: 1.0,
       });
       const reverbNode = new Tone.Reverb();
       // スピーカーが壊れないようにリミッターをかませる
-      const limiterNode = new Tone.Limiter(-10.0);
+      const limiterNode = new Tone.Limiter(0.0);
 
       // エフェクターをつなげていく
       explotionPlayer.connect(upGainNode);
@@ -61,33 +71,78 @@ const App: Component = () => {
       limiterNode.toDestination();
     });
 
+    explotionPlayer.onstop = function () {
+      // 再生が終わってもリバーブがあるので追加で1秒くらい待つ
+      setTimeout(() => {
+        getExplotionRecorder()
+          .stop()
+          .then((explotionBlob) => {
+            const explotionBlobUrl = URL.createObjectURL(explotionBlob);
+            setExplotionBlob(explotionBlobUrl);
+          });
+      }, 1000);
+    };
+
     setExplotionPlayer(explotionPlayer);
   }
 
+  const [getPlayerElement, setPlayerElement] = createSignal<HTMLVideoElement>(
+    null!,
+  );
+
+  /** TODO: 状態か定数として持つ */
+  const videoSeconds = 8;
+
+  /** 現在のカウント / 最大のカウント数 を計算する */
+  const calcCountProgress = (count: number) => count / getNumberOfTimes();
+
+  /** 動画の秒数 / 現在の進捗の割合 現在の動画の秒数を計算する */
+  const calcPlayerTime = (count: number) =>
+    videoSeconds * calcCountProgress(count);
+
+  // カウントアップを検知
   const countUp = () => {
-    setCount(count() + 1);
+    setCount(getCount() + 1);
 
     // とりあえずデバッグ用に8回目で録音を止める
-    if (count() == 8) {
+    if (getCount() == 8) {
       stopRecordWithExplosionize();
     }
 
     // とりあえずデバッグ用に10回目でリザルト画面に遷移
-    if (count() == 10) {
+    if (getCount() == 10) {
       navigate('/result');
     }
+
+    // const count = getCount() + 1;
+
+    // console.log(calcCountProgress(count), calcPlayerTime(count));
+
+    // setCount(count);
   };
 
+  /** lottie-player にイベントリスナーを追加 */
   createEffect(() => {
-    // 自動検知
-    console.log(count());
+    const playerEl = getPlayerElement();
+    playerEl.currentTime = 1;
   });
 
+  const complete = () => {
+    console.log('complete!!!');
+  };
+
   return (
-    <>
-      <div>Count: {count()}</div>
-      <button onClick={() => countUp()}>up</button>
-    </>
+    <div class={styles.host}>
+      <video
+        ref={setPlayerElement}
+        src={VideoPath}
+        controls={false}
+        onEnded={complete}
+        class={styles.video}
+      />
+      <div>Count: {getCount()}</div>
+      <button onClick={countUp}>up</button>
+    </div>
   );
 };
 

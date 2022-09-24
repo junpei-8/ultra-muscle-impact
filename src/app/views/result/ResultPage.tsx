@@ -1,12 +1,41 @@
 import Button from '@suid/material/Button';
 import { Link } from 'solid-app-router';
-import * as Tone from 'tone';
-import { explotionPlayer } from '../../store/audio';
+import { createEffect, onMount } from 'solid-js';
+import WaveSurfer from 'wavesurfer.js';
+import {
+  explotionBlob,
+  explotionPlayer,
+  explotionRecorder,
+} from '../../store/audio';
+import { setIsShowRootActions } from '../../store/root';
 import styles from './ResultPage.module.scss';
 
 const ResultPage = () => {
-  const [getExplotionPlayer, setExplotionPlayer] = explotionPlayer;
-  getExplotionPlayer()!.start();
+  // Header と Footer を隠す
+  setIsShowRootActions(true);
+
+  const [getExplotionRecorder] = explotionRecorder;
+  const [getExplotionBlob] = explotionBlob;
+
+  const [getExplotionPlayer] = explotionPlayer;
+  getExplotionRecorder().start();
+  getExplotionPlayer()!.start('1s');
+
+  let afterWaveform: { load: (arg0: string) => void } | null = null;
+
+  onMount(() => {
+    afterWaveform = WaveSurfer.create({
+      container: '#waveform_after',
+      waveColor: 'violet',
+      progressColor: 'purple',
+    });
+  });
+
+  createEffect(() => {
+    if (getExplotionBlob() != null) {
+      afterWaveform?.load(getExplotionBlob()!);
+    }
+  });
 
   return (
     <div class={styles.container}>
@@ -21,6 +50,10 @@ const ResultPage = () => {
           alt=""
           class={styles.resultGif}
         />
+      </div>
+      <div class="waveform_container">
+        <h1>あなたの鳴き声</h1>
+        <div id="waveform_after" />
       </div>
       <Button variant="contained">
         <Link href="/">もう一度筋トレする</Link>
