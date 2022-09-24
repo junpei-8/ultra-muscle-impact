@@ -21,9 +21,9 @@ const SettingPage = () => {
   });
 
   return (
-    <div>
+    <div class={styles.host}>
       {getHasLoaded() ? (
-        <div class={styles.host}>
+        <div>
           {() => {
             const authedUser = getAuthedUser();
             return authedUser ? (

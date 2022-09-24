@@ -35,7 +35,7 @@ const MusclePage = () => {
   };
 
   return (
-    <div class={styles.container}>
+    <div class={styles.host}>
       <form>
         <TextField
           required
