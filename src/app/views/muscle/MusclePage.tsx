@@ -28,7 +28,6 @@ const MusclePage = () => {
   const navigation = () => {
     if (!(getNumberOfTimes() === 0 || getSetCount() === 0)) {
       navigate('/action');
-      // alert('フォームが入力されていません。');
     }
   };
 
