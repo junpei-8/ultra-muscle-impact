@@ -7,6 +7,8 @@ import LoadingPage from './views/loading/LoadingPage';
 
 const MusclePage = lazy(() => import('./views/muscle/MusclePage'));
 
+const ActionPage = lazy(() => import('./views/action/ActionPage'));
+
 const App: Component = () => {
   const [isShowActions] = rootActionsState;
 
@@ -14,15 +16,13 @@ const App: Component = () => {
     <div class="app">
       {isShowActions() ? <AppHeader /> : null}
 
-      <main class="app-main">
-        <Routes>
-          <Suspense fallback={<LoadingPage />}>
-            {/* <Route path="/" element={<SettingPage />} /> */}
-            <Route path="/" element={<MusclePage />} />
-            <Route path="/loading" element={<LoadingPage />} />
-          </Suspense>
-        </Routes>
-      </main>
+      <Routes>
+        <Suspense fallback={<LoadingPage />}>
+          <Route path="/" element={<MusclePage />} />
+          <Route path="/loading" element={<LoadingPage />} />
+          <Route path="/action" element={<ActionPage />} />
+        </Suspense>
+      </Routes>
 
       {isShowActions() ? <AppFooter /> : null}
     </div>
