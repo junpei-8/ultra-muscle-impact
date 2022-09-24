@@ -1,4 +1,5 @@
 import Button from '@suid/material/Button';
+import { Link } from 'solid-app-router';
 import styles from './ResultPage.module.scss';
 
 const ResultPage = () => {
@@ -16,7 +17,9 @@ const ResultPage = () => {
           class={styles.resultGif}
         />
       </div>
-      <Button variant="contained">もう一度筋トレする</Button>
+      <Button variant="contained">
+        <Link href="/">もう一度筋トレする</Link>
+      </Button>
     </div>
   );
 };
