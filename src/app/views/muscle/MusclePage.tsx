@@ -1,5 +1,6 @@
 import Button from '@suid/material/Button';
 import TextField from '@suid/material/TextField';
+import { Link } from 'solid-app-router';
 import styles from './MusclePage.module.scss';
 
 const MusclePage = () => {
@@ -18,7 +19,9 @@ const MusclePage = () => {
         type="number"
         class={styles.textField}
       />
-      <Button variant="contained">筋トレ開始！</Button>
+      <Button variant="contained">
+        <Link href="/action">筋トレ開始！</Link>
+      </Button>
     </div>
   );
 };
