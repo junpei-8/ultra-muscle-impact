@@ -10,26 +10,26 @@ const AppFooter = () => {
     <footer class={styles.host}>
       <div class={styles.navItem}>
         <Link href="/">
-          <div>
+          <Button>
             <PersonIcon />
-            <Button>マッスル</Button>
-          </div>
+            <p>マッスル</p>
+          </Button>
         </Link>
       </div>
       <div class={styles.navItem}>
         <Link href="/muscle/">
-          <div>
+          <Button>
             <LibraryBooksIcon />
-            <Button>図鑑</Button>
-          </div>
+            <p>図鑑</p>
+          </Button>
         </Link>
       </div>
       <div class={styles.navItem}>
         <Link href="/muscle/">
-          <div>
+          <Button>
             <SettingsIcon />
-            <Button>設定</Button>
-          </div>
+            <p>設定</p>
+          </Button>
         </Link>
       </div>
     </footer>
