@@ -1,7 +1,9 @@
 import Button from '@suid/material/Button';
 import TextField from '@suid/material/TextField';
-import { Link, useNavigate } from 'solid-app-router';
+import { useNavigate } from 'solid-app-router';
 import { JSX } from 'solid-js';
+import * as Tone from 'tone';
+import { mic, micRecorder } from '../../store/audio';
 import {
   getNumberOfTimes,
   setNumberOfTimes,
@@ -11,6 +13,11 @@ import {
 import styles from './MusclePage.module.scss';
 
 const MusclePage = () => {
+  const navigate = useNavigate();
+
+  const [getMic, setMic] = mic;
+  const [getMicRecorder, setMicRecorder] = micRecorder;
+
   const updateNumberOfTimes: JSX.EventHandlerUnion<HTMLInputElement, Event> = (
     e,
   ) => {
@@ -23,10 +30,15 @@ const MusclePage = () => {
     setSetCount(Number((e.target as HTMLInputElement).value));
   };
 
-  const navigate = useNavigate();
-
-  const navigation = () => {
+  const startMuscle = async () => {
     if (!(getNumberOfTimes() === 0 || getSetCount() === 0)) {
+      await Tone.start();
+      const userMedia = new Tone.UserMedia();
+      setMic(userMedia);
+      getMic()?.connect(getMicRecorder());
+      await getMic()?.open();
+      await getMicRecorder().start();
+
       navigate('/action');
     }
   };
@@ -59,8 +71,7 @@ const MusclePage = () => {
           value={getSetCount()}
           onChange={updateSetCount}
         />
-        <Button variant="contained" onClick={navigation} type="submit">
-          {/* <Link href="/action">筋トレ開始！</Link> */}
+        <Button variant="contained" onClick={startMuscle}>
           筋トレ開始！
         </Button>
       </form>

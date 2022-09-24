@@ -1,8 +1,13 @@
 import Button from '@suid/material/Button';
 import { Link } from 'solid-app-router';
+import * as Tone from 'tone';
+import { explotionPlayer } from '../../store/audio';
 import styles from './ResultPage.module.scss';
 
 const ResultPage = () => {
+  const [getExplotionPlayer, setExplotionPlayer] = explotionPlayer;
+  getExplotionPlayer()!.start();
+
   return (
     <div class={styles.container}>
       <h2>
