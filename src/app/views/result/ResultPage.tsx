@@ -7,9 +7,13 @@ import {
   explotionPlayer,
   explotionRecorder,
 } from '../../store/audio';
+import { setIsShowRootActions } from '../../store/root';
 import styles from './ResultPage.module.scss';
 
 const ResultPage = () => {
+  // Header と Footer を隠す
+  setIsShowRootActions(true);
+
   const [getExplotionRecorder] = explotionRecorder;
   const [getExplotionBlob] = explotionBlob;
 

@@ -1,6 +1,7 @@
 import { useNavigate } from 'solid-app-router';
 import { Component, createSignal, createEffect } from 'solid-js';
 import * as Tone from 'tone';
+import VideoPath from '../../../assets/movie/Leg_Explosion.mp4';
 import {
   explotionBlob,
   explotionPlayer,
@@ -10,8 +11,13 @@ import {
   micRecorder,
 } from '../../store/audio';
 import { getNumberOfTimes } from '../../store/muscle';
+import { setIsShowRootActions } from '../../store/root';
+import styles from './ActionPage.module.scss';
 
 const App: Component = () => {
+  // Header と Footer を隠す
+  setIsShowRootActions(false);
+
   const [getCount, setCount] = createSignal<number>(0);
   const [getMic] = mic;
   const [getMicRecorder] = micRecorder;
@@ -126,8 +132,14 @@ const App: Component = () => {
   };
 
   return (
-    <div>
-      <video ref={setPlayerElement} controls={false} onEnded={complete} />
+    <div class={styles.host}>
+      <video
+        ref={setPlayerElement}
+        src={VideoPath}
+        controls={false}
+        onEnded={complete}
+        class={styles.video}
+      />
       <div>Count: {getCount()}</div>
       <button onClick={countUp}>up</button>
     </div>

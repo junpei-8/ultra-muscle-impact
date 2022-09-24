@@ -2,10 +2,14 @@ import Button from '@suid/material/Button';
 import CircularProgress from '@suid/material/CircularProgress';
 import { createEffect, createSignal } from 'solid-js';
 import { authGoogle } from '../../../api/google-auth';
+import { setIsShowRootActions } from '../../store/root';
 import { getAuthedUser } from '../../store/user';
 import styles from './Settings.module.scss';
 
 const SettingPage = () => {
+  // Header と Footer を表示する
+  setIsShowRootActions(true);
+
   const [getHasLoaded, setHasLoaded] = createSignal(false);
 
   // 認証済みユーザーが取得・変更されたタイミングでローディングの表示を変更する
