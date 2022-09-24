@@ -11,12 +11,15 @@ const App: Component = () => {
     <div class="app">
       <AppHeader />
 
-      <Routes>
-        <Suspense fallback={<LoadingPage />}>
-          <Route path="/" element={<MusclePage />} />
-          <Route path="/loading" element={<LoadingPage />} />
-        </Suspense>
-      </Routes>
+      <main>
+        <Routes>
+          <Suspense fallback={<LoadingPage />}>
+            {/* <Route path="/" element={<SettingPage />} /> */}
+            <Route path="/" element={<MusclePage />} />
+            <Route path="/loading" element={<LoadingPage />} />
+          </Suspense>
+        </Routes>
+      </main>
 
       <AppFooter />
     </div>
