@@ -22,7 +22,7 @@ const MusclePage = () => {
   const startMuscle = async () => {
     await Tone.start();
 
-    if (!(getNumberOfTimes() > 0)) {
+    if (getNumberOfTimes() > 0) {
       const userMedia = new Tone.UserMedia();
       setMic(userMedia);
       getMic()?.connect(getMicRecorder());
