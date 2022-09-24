@@ -7,20 +7,40 @@
   display: flex;
   justify-content: space-around;
 }
-.navItem {
-  padding: 8px;
-  button {
-    color: #fff;
-    font-size: 0.8em;
-    display: block;
-    padding: 0;
-  }
-  p {
-    margin: 0;
-  }
-  svg {
-    display: block;
-    margin: auto;
-    fill: #fff;
-  }
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.link {
+  display: block;
+  width: 100%;
+}
+
+.button {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+}
+
+.button,
+.label,
+.icon {
+  color: #fff;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
 }
