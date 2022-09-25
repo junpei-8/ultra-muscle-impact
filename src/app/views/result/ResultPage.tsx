@@ -2,7 +2,7 @@ import Button from '@suid/material/Button';
 import { Link } from 'solid-app-router';
 import { createEffect, onMount } from 'solid-js';
 import WaveSurfer from 'wavesurfer.js';
-import resultGifPath from '../../assets/images/result.gif';
+import resultGifPath from '../../../assets/images/result.gif';
 import {
   explotionBlob,
   explotionPlayer,

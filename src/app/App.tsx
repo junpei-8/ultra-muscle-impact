@@ -1,16 +1,15 @@
 import { Route, Routes } from 'solid-app-router';
-import { Component, createEffect, createMemo, lazy, Suspense } from 'solid-js';
+import { Component, lazy, Suspense } from 'solid-js';
 import AppFooter from './AppFooter';
 import AppHeader from './AppHeader';
 import { getIsShowRootActions, getOverlayElement } from './store/root';
 import CollectionPage from './views/collection/CollectionPage';
 import LoadingPage from './views/loading/LoadingPage';
-import ResultPage from './views/result/ResultPage';
-import SettingsPage from './views/settings/Settings';
 
 const MusclePage = lazy(() => import('./views/muscle/MusclePage'));
-
 const ActionPage = lazy(() => import('./views/action/ActionPage'));
+const ResultPage = lazy(() => import('./views/result/ResultPage'));
+const SettingsPage = lazy(() => import('./views/settings/SettingsPage'));
 
 const App: Component = () => {
   return (
