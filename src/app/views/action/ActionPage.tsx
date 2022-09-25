@@ -29,7 +29,6 @@ const App: Component = () => {
   // Header と Footer を隠す
   setIsShowRootActions(false);
 
-  const [getCount, setCount] = createSignal(0);
   const [top, setTop] = createSignal(0);
   const [getMic] = mic;
   const [getMicRecorder] = micRecorder;
@@ -154,8 +153,6 @@ const App: Component = () => {
     limitVideoTime = maxVideoTime * (counter / maxCount);
 
     getPlayerElement().play();
-
-    // setCount(count);
   };
 
   function handleMotionEvent(e: any) {
