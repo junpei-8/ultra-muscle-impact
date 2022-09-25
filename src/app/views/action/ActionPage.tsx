@@ -174,10 +174,12 @@ const App: Component = () => {
     window.removeEventListener('devicemotion', handleMotionEvent),
   );
 
+  const [getHasVideoLoaded, setHasVideoLoaded] = createSignal(false);
   /** 動画がロードされたタイミングで動画の秒数を取得する */
   const initMaxVideoTime = () => {
     const playerEl = getPlayerElement();
     maxVideoTime = playerEl.duration;
+    setHasVideoLoaded(true);
   };
 
   /** 現在の動画の再生時間を更新する */
@@ -197,7 +199,7 @@ const App: Component = () => {
   };
 
   return (
-    <div class={styles.host} onClick={() => countUp(1)}>
+    <div class={styles.host} onClick={() => getHasVideoLoaded() && countUp(1)}>
       <video
         ref={setPlayerElement}
         src={explosionVideoPath}
@@ -208,13 +210,15 @@ const App: Component = () => {
         class={styles.video}
       />
 
-      <LinearProgress
-        class={styles.progress}
-        color="success"
-        variant="buffer"
-        value={videoTimeProgress()}
-        valueBuffer={countProgress()}
-      />
+      {getHasVideoLoaded() ? (
+        <LinearProgress
+          class={styles.progress}
+          color="success"
+          variant="buffer"
+          value={videoTimeProgress()}
+          valueBuffer={countProgress()}
+        />
+      ) : null}
     </div>
   );
 };
