@@ -29,7 +29,7 @@ const App: Component = () => {
   // Header と Footer を隠す
   setIsShowRootActions(false);
 
-  const [top, setTop] = createSignal(0);
+  const [getTop, setTop] = createSignal(0);
   const [getMic] = mic;
   const [getMicRecorder] = micRecorder;
   const [getExplotionRecorder] = explotionRecorder;
@@ -120,7 +120,7 @@ const App: Component = () => {
   const [getCurrentVideoTime, setCurrentVideoTime] = createSignal(0);
 
   /** カウントの進捗状況を計算し、状態として管理する */
-  const countProgress = createMemo(() => (top() / getMaxCount()) * 100 || 0);
+  const countProgress = createMemo(() => (getTop() / getMaxCount()) * 100 || 0);
 
   /** ビデオの進捗状況を計算し、状態として管理する */
   const videoTimeProgress = createMemo(() =>
@@ -132,11 +132,11 @@ const App: Component = () => {
 
   /** カウントする */
   const countUp = (incremental: number) => {
-    setTop(incremental);
+    setTop(getTop() + incremental);
 
     const maxCount = getMaxCount();
 
-    const counter: number = Math.round(top());
+    const counter: number = Math.round(getTop());
     console.log(counter, maxCount);
 
     if (counter >= maxCount) {
@@ -164,7 +164,7 @@ const App: Component = () => {
       const topPosition = basePosition + 8.0;
 
       if (ay >= topPosition) {
-        countUp(top() + 0.16);
+        countUp(0.16);
       }
     }
   };
