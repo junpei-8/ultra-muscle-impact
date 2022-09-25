@@ -1,9 +1,39 @@
+@import './utils/colors.scss';
+
+* {
+  // パフォーマンス的にあんまよくないけど
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
 html,
-body {
+body,
+#root,
+.app,
+.app-main {
   height: 100%;
+}
+
+header {
+  background-color: $main-color;
 }
 
 body {
   margin: 0;
   font-family: 'Noto Sans JP', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  &:visited,
+  &:active {
+    color: inherit;
+  }
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 40px 0;
 }

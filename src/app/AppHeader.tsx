@@ -1,10 +1,14 @@
 import AppBar from '@suid/material/AppBar';
+import Typography from '@suid/material/Typography';
+import styles from './AppHeader.module.scss';
 
 const AppHeader = () => {
   return (
-    <header>
-      <AppBar>App Bar（Github Actions Test）</AppBar>
-    </header>
+    <AppBar class={styles.host}>
+      <Typography variant="h6" component="div">
+        Muscle Impact
+      </Typography>
+    </AppBar>
   );
 };
 

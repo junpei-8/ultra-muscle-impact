@@ -8,19 +8,34 @@
     "dev": "vite",
     "dev-host": "vite --host",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "generate-code": "graphql-codegen --config graphql-codegen/codegen.yml",
+    "generate-code:watch": "pnpm generate-code --watch",
+    "generate": "pnpm generate-code:watch",
+    "fetch-schema": "rm -fr ./graphql-codegen/shared/schema.graphql && mkdir -p ./graphql-codegen/shared && get-graphql-schema -h 'Authorization=Bearer znM75oglx7BNWPewlUx3S7p3nUJZuEXaXKENJXC9ecdhyQO84lhpAxSPTt0GF8cO' https://ultra-muscle-impact.hasura.app/v1/graphql > ./graphql-codegen/shared/schema.gql",
+    "gen": "pnpm generate"
   },
   "license": "MIT",
   "devDependencies": {
+    "@graphql-codegen/add": "^3.2.1",
+    "@graphql-codegen/cli": "^2.11.6",
+    "@graphql-codegen/import-types-preset": "^2.2.3",
+    "@graphql-codegen/near-operation-file-preset": "^2.4.1",
+    "@graphql-codegen/typescript": "^2.7.3",
+    "@graphql-codegen/typescript-operations": "^2.5.3",
+    "@graphql-codegen/typescript-vue-apollo": "^3.3.3",
+    "@types/node": "^18.7.20",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
     "@typescript-eslint/parser": "^5.38.0",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-solid": "^0.7.3",
+    "get-graphql-schema": "^2.1.2",
     "prettier": "^2.7.1",
     "prettier-plugin-jsdoc": "^0.4.2",
     "sass": "^1.55.0",
+    "ts-node": "^10.9.1",
     "typescript": "^4.8.2",
     "vite": "^3.0.9",
     "vite-plugin-solid": "^2.3.0"
@@ -28,7 +43,13 @@
   "dependencies": {
     "@suid/icons-material": "^0.4.0",
     "@suid/material": "^0.6.2",
+    "firebase": "^9.10.0",
+    "graphql": "^16.6.0",
+    "graphql-request": "^5.0.0",
+    "graphql-tag": "^2.12.6",
     "solid-app-router": "^0.4.2",
-    "solid-js": "^1.5.1"
+    "solid-js": "^1.5.1",
+    "tone": "^14.7.77",
+    "wavesurfer.js": "^6.2.0"
   }
 }
