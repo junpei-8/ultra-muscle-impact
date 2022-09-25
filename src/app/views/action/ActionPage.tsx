@@ -2,7 +2,7 @@ import LinearProgress from '@suid/material/LinearProgress';
 import { useNavigate } from 'solid-app-router';
 import { Component, createMemo, createSignal, onCleanup } from 'solid-js';
 import * as Tone from 'tone';
-import explosionVideoPath from '../../../assets/movie/leg-explosion.mp4';
+import explosionVideoPath from '../../../assets/movie/leg-explosion-small.mp4';
 import {
   explotionBlob,
   explotionPlayer,
