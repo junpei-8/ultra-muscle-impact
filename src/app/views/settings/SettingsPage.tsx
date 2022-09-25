@@ -4,7 +4,7 @@ import { createEffect, createSignal } from 'solid-js';
 import { authGoogle } from '../../../api/google-auth';
 import { setIsShowRootActions } from '../../store/root';
 import { getAuthedUser } from '../../store/user';
-import styles from './Settings.module.scss';
+import styles from './SettingsPage.module.scss';
 
 const SettingPage = () => {
   // Header と Footer を表示する
