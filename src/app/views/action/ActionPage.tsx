@@ -2,7 +2,7 @@ import LinearProgress from '@suid/material/LinearProgress';
 import { useNavigate } from 'solid-app-router';
 import { Component, createMemo, createSignal } from 'solid-js';
 import * as Tone from 'tone';
-import VideoPath from '../../../assets/movie/Leg_Explosion.mp4';
+import explosionVideoPath from '../../../assets/movie/Leg_Explosion.mp4';
 import {
   explotionBlob,
   explotionPlayer,
@@ -195,7 +195,7 @@ const App: Component = () => {
     <div class={styles.host}>
       <video
         ref={setPlayerElement}
-        src={VideoPath}
+        src={explosionVideoPath}
         controls={false}
         onLoadedData={initMaxVideoTime}
         onTimeUpdate={updateCurrentVideoTime}
