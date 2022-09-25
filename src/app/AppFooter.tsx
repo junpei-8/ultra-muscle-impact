@@ -41,5 +41,5 @@ const FooterButton = (props: {
     </Button>
   );
 };
-
+// hoge
 export default AppFooter;

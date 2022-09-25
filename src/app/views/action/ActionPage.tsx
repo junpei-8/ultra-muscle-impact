@@ -1,6 +1,6 @@
 import LinearProgress from '@suid/material/LinearProgress';
 import { useNavigate } from 'solid-app-router';
-import { Component, createMemo, createSignal } from 'solid-js';
+import { Component, createMemo, createSignal, onCleanup } from 'solid-js';
 import * as Tone from 'tone';
 import explosionVideoPath from '../../../assets/movie/leg-explosion.mp4';
 import {
@@ -131,8 +131,8 @@ const App: Component = () => {
   );
 
   /** カウントする */
-  const countUp = () => {
-    setTop(top() + 0.16);
+  const countUp = (incremental: number) => {
+    setTop(incremental);
 
     const maxCount = getMaxCount();
 
@@ -155,7 +155,7 @@ const App: Component = () => {
     getPlayerElement().play();
   };
 
-  function handleMotionEvent(e: any) {
+  const handleMotionEvent = (e: any) => {
     const Y = e.accelerationIncludingGravity?.y;
     if (Y !== null) {
       ay = Y;
@@ -164,11 +164,16 @@ const App: Component = () => {
       const topPosition = basePosition + 8.0;
 
       if (ay >= topPosition) {
-        countUp();
+        countUp(top() + 0.16);
       }
     }
-  }
+  };
+
   window.addEventListener('devicemotion', handleMotionEvent, false);
+  onCleanup(() =>
+    window.removeEventListener('devicemotion', handleMotionEvent),
+  );
+
   /** 動画がロードされたタイミングで動画の秒数を取得する */
   const initMaxVideoTime = () => {
     const playerEl = getPlayerElement();
@@ -192,7 +197,7 @@ const App: Component = () => {
   };
 
   return (
-    <div class={styles.host}>
+    <div class={styles.host} onClick={() => countUp(1)}>
       <video
         ref={setPlayerElement}
         src={explosionVideoPath}
@@ -202,8 +207,6 @@ const App: Component = () => {
         onEnded={complete}
         class={styles.video}
       />
-
-      <button onClick={countUp}>up</button>
 
       <LinearProgress
         class={styles.progress}
