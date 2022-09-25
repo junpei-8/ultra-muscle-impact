@@ -12,9 +12,13 @@
   height: 100%;
 }
 
-.progress {
+.progressBar {
   width: 88%;
   margin: 16px 0;
   flex-shrink: 0;
   height: 8px;
+}
+
+.progressSpinner {
+  margin-top: 48px;
 }

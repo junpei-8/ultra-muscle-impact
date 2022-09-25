@@ -1,3 +1,4 @@
+import CircularProgress from '@suid/material/CircularProgress';
 import LinearProgress from '@suid/material/LinearProgress';
 import { useNavigate } from 'solid-app-router';
 import { Component, createMemo, createSignal, onCleanup } from 'solid-js';
@@ -207,13 +208,15 @@ const App: Component = () => {
 
       {getHasVideoLoaded() ? (
         <LinearProgress
-          class={styles.progress}
+          class={styles.progressBar}
           color="success"
           variant="buffer"
           value={videoTimeProgress()}
           valueBuffer={countProgress()}
         />
-      ) : null}
+      ) : (
+        <CircularProgress class={styles.progressSpinner} size="64px" />
+      )}
     </div>
   );
 };
