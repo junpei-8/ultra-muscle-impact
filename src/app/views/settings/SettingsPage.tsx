@@ -15,9 +15,7 @@ const SettingPage = () => {
   // 認証済みユーザーが取得・変更されたタイミングでローディングの表示を変更する
   createEffect(() => {
     const user = getAuthedUser();
-    console.log(user);
     setHasLoaded(true);
-    console.log(user);
   });
 
   return (
