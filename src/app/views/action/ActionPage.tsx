@@ -37,63 +37,72 @@ const App: Component = () => {
   const [, setMicBlob] = micBlob;
 
   const stopRecordWithExplosionize = async () => {
-    // 録音止める
-    getMic()!.close();
-    const micBlob = await getMicRecorder().stop();
-    const micBlobUrl = URL.createObjectURL(micBlob);
+    // 二重に止めないようにする
+    if (!getMicRecorder().disposed) {
+      const micBlob = await getMicRecorder().stop();
 
-    setMicBlob(micBlobUrl);
+      getMicRecorder().dispose();
 
-    // 爆発音の長さ(秒)
-    const lengthSeconds = 4.0;
+      // 録音止める
+      getMic()!.dispose();
 
-    const explotionPlayer = new Tone.Player(micBlobUrl, () => {
-      // 任意の秒数の音声データにするために倍速再生する
-      const playbackRate = explotionPlayer.buffer.duration / lengthSeconds;
-      explotionPlayer.playbackRate = playbackRate;
+      const micBlobUrl = URL.createObjectURL(micBlob);
 
-      // フェードアウトさせる
-      explotionPlayer.fadeOut = Tone.Time(lengthSeconds).toSeconds();
+      setMicBlob(micBlobUrl);
 
-      // 音量をめちゃくちゃ上げる
-      const upGainNode = new Tone.Gain({ gain: 1024, convert: true });
+      // 爆発音の長さ(秒)
+      const lengthSeconds = 4.0;
 
-      // (倍速速度 + 2) * -12 くらいがちょうどいい
-      const pitchDownNode = new Tone.PitchShift({
-        pitch: -12 * playbackRate + 2.0,
-        wet: 1.0,
+      const explotionPlayer = new Tone.Player(micBlobUrl, () => {
+        // 任意の秒数の音声データにするために倍速再生する
+        const playbackRate = explotionPlayer.buffer.duration / lengthSeconds;
+        explotionPlayer.playbackRate = playbackRate;
+
+        // フェードアウトさせる
+        explotionPlayer.fadeOut = Tone.Time(lengthSeconds).toSeconds();
+
+        // 音量をめちゃくちゃ上げる
+        const upGainNode = new Tone.Gain({ gain: 1024, convert: true });
+
+        // (倍速速度 + 2) * -12 くらいがちょうどいい
+        const pitchDownNode = new Tone.PitchShift({
+          pitch: -12 * playbackRate + 2.0,
+          wet: 1.0,
+        });
+
+        const reverbNode = new Tone.Reverb();
+
+        // スピーカーが壊れないようにリミッターをかませる
+        const limiterNode = new Tone.Limiter(0.0);
+
+        // エフェクターをつなげていく
+        explotionPlayer.connect(upGainNode);
+        upGainNode.connect(pitchDownNode);
+        pitchDownNode.connect(reverbNode);
+        reverbNode.connect(limiterNode);
+
+        // 爆音レコーダー
+        limiterNode.connect(getExplotionRecorder());
+
+        limiterNode.toDestination();
       });
 
-      const reverbNode = new Tone.Reverb();
+      explotionPlayer.onstop = function () {
+        // 再生が終わってもリバーブがあるので追加で1秒くらい待つ
+        setTimeout(() => {
+          getExplotionRecorder()
+            .stop()
+            .then((explotionBlob) => {
+              const explotionBlobUrl = URL.createObjectURL(explotionBlob);
+              setExplotionBlob(explotionBlobUrl);
+            });
+        }, 1000);
+      };
 
-      // スピーカーが壊れないようにリミッターをかませる
-      const limiterNode = new Tone.Limiter(0.0);
-
-      // エフェクターをつなげていく
-      explotionPlayer.connect(upGainNode);
-      upGainNode.connect(pitchDownNode);
-      pitchDownNode.connect(reverbNode);
-      reverbNode.connect(limiterNode);
-
-      // 爆音レコーダー
-      limiterNode.connect(getExplotionRecorder());
-
-      limiterNode.toDestination();
-    });
-
-    explotionPlayer.onstop = function () {
-      // 再生が終わってもリバーブがあるので追加で1秒くらい待つ
-      setTimeout(() => {
-        getExplotionRecorder()
-          .stop()
-          .then((explotionBlob) => {
-            const explotionBlobUrl = URL.createObjectURL(explotionBlob);
-            setExplotionBlob(explotionBlobUrl);
-          });
-      }, 1000);
-    };
-
-    setExplotionPlayer(explotionPlayer);
+      setExplotionPlayer(explotionPlayer);
+    } else {
+      // do nothing
+    }
   };
 
   const [getPlayerElement, setPlayerElement] = createSignal<HTMLVideoElement>(

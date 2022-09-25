@@ -28,6 +28,7 @@ const MusclePage = () => {
     const userMedia = new Tone.UserMedia();
     setMic(userMedia);
     getMic()?.connect(getMicRecorder());
+
     await getMic()?.open();
     await getMicRecorder().start();
 
