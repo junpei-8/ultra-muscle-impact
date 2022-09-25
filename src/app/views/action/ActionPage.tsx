@@ -14,6 +14,8 @@ import {
 import { getMaxCount } from '../../store/muscle';
 import { setIsShowRootActions } from '../../store/root';
 import styles from './ActionPage.module.scss';
+const y_list: number[] = [];
+let ay;
 
 const App: Component = () => {
   const navigate = useNavigate();
@@ -28,6 +30,7 @@ const App: Component = () => {
   setIsShowRootActions(false);
 
   const [getCount, setCount] = createSignal(0);
+  const [top, setTop] = createSignal(0);
   const [getMic] = mic;
   const [getMicRecorder] = micRecorder;
   const [getExplotionRecorder] = explotionRecorder;
@@ -118,9 +121,7 @@ const App: Component = () => {
   const [getCurrentVideoTime, setCurrentVideoTime] = createSignal(0);
 
   /** カウントの進捗状況を計算し、状態として管理する */
-  const countProgress = createMemo(
-    () => (getCount() / getMaxCount()) * 100 || 0,
-  );
+  const countProgress = createMemo(() => (top() / getMaxCount()) * 100 || 0);
 
   /** ビデオの進捗状況を計算し、状態として管理する */
   const videoTimeProgress = createMemo(() =>
@@ -132,28 +133,45 @@ const App: Component = () => {
 
   /** カウントする */
   const countUp = () => {
-    const count = getCount() + 1;
+    setTop(top() + 0.16);
 
     const maxCount = getMaxCount();
 
-    if (count >= maxCount) {
+    const counter: number = Math.round(top());
+    console.log(counter, maxCount);
+
+    if (counter >= maxCount) {
       // 最後のカウントの場合は動画を停止させない
       limitVideoTime = Infinity;
       getPlayerElement().play();
-      setCount(maxCount);
+      setTop(maxCount);
       return;
     }
 
     // 達成率が８割になったら録音を止める
-    if (count >= maxCount * 0.8) stopRecordWithExplosionize();
+    if (counter >= maxCount * 0.8) stopRecordWithExplosionize();
 
-    limitVideoTime = maxVideoTime * (count / maxCount);
+    limitVideoTime = maxVideoTime * (counter / maxCount);
 
     getPlayerElement().play();
 
-    setCount(count);
+    // setCount(count);
   };
 
+  function handleMotionEvent(e: any) {
+    const Y = e.accelerationIncludingGravity?.y;
+    if (Y !== null) {
+      ay = Y;
+      y_list.push(ay);
+      const basePosition = y_list[0];
+      const topPosition = basePosition + 8.0;
+
+      if (ay >= topPosition) {
+        countUp();
+      }
+    }
+  }
+  window.addEventListener('devicemotion', handleMotionEvent, false);
   /** 動画がロードされたタイミングで動画の秒数を取得する */
   const initMaxVideoTime = () => {
     const playerEl = getPlayerElement();
