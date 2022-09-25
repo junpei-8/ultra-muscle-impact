@@ -2,6 +2,7 @@ import Button from '@suid/material/Button';
 import { Link } from 'solid-app-router';
 import { createEffect, onMount } from 'solid-js';
 import WaveSurfer from 'wavesurfer.js';
+import resultGifPath from '../../assets/images/result.gif';
 import {
   explotionBlob,
   explotionPlayer,
@@ -49,11 +50,7 @@ const ResultPage = () => {
         筋肉が喜んでいるよ！！
       </h2>
       <div class={styles.imgFrame}>
-        <img
-          src="src/assets/images/result.gif"
-          alt=""
-          class={styles.resultGif}
-        />
+        <img src={resultGifPath} alt="" class={styles.resultGif} />
       </div>
       <div class="waveform_container">
         <h1>あなたの鳴き声</h1>

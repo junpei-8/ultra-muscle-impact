@@ -1,4 +1,5 @@
 import { createSignal } from 'solid-js';
+import explosionGifPath from '../../../assets/images/explosion.gif';
 import { setOverlayElement } from '../../store/root';
 import styles from './ResultOverlay.module.scss';
 
@@ -14,7 +15,7 @@ const ResultOverlay = () => {
 
   return (
     <div classList={{ [styles.host]: true, [styles.hide]: getIsHidden() }}>
-      <img class={styles.movie} src="src/assets/images/explosion.gif" />
+      <img class={styles.movie} src={explosionGifPath} />
     </div>
   );
 };
