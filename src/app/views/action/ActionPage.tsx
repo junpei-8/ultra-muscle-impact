@@ -20,12 +20,6 @@ let ay;
 const App: Component = () => {
   const navigate = useNavigate();
 
-  // カウント（回数）が格納されていない場合はトップページに遷移する
-  if (getMaxCount() <= 0) {
-    navigate('/'); // eslint-disable-next-line solid/components-return-once
-    return <></>;
-  }
-
   // Header と Footer を隠す
   setIsShowRootActions(false);
 
@@ -137,7 +131,7 @@ const App: Component = () => {
     const maxCount = getMaxCount();
 
     const counter: number = Math.round(getTop());
-    console.log(counter, maxCount);
+    // console.log(counter, maxCount);
 
     if (counter >= maxCount) {
       // 最後のカウントの場合は動画を停止させない
@@ -175,11 +169,11 @@ const App: Component = () => {
   );
 
   const [getHasVideoLoaded, setHasVideoLoaded] = createSignal(false);
+
   /** 動画がロードされたタイミングで動画の秒数を取得する */
   const initMaxVideoTime = () => {
     const playerEl = getPlayerElement();
     maxVideoTime = playerEl.duration;
-    setHasVideoLoaded(true);
   };
 
   /** 現在の動画の再生時間を更新する */
@@ -205,6 +199,7 @@ const App: Component = () => {
         src={explosionVideoPath}
         controls={false}
         onLoadedData={initMaxVideoTime}
+        onCanPlay={() => setHasVideoLoaded(true)}
         onTimeUpdate={updateCurrentVideoTime}
         onEnded={complete}
         class={styles.video}
