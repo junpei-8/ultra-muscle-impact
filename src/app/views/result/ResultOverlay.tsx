@@ -1,5 +1,5 @@
 import { createSignal } from 'solid-js';
-import explosionGifPath from '../../../assets/images/explosion_2.gif';
+import explosionGifPath from '../../../assets/images/explosion.gif';
 import { setOverlayElement } from '../../store/root';
 import styles from './ResultOverlay.module.scss';
 
