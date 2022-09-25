@@ -1,5 +1,5 @@
 import { createSignal } from 'solid-js';
-import explosionGifPath from '../../../assets/images/explosion.gif';
+import explosionGifPath from '../../../assets/images/explosion_2.gif';
 import { setOverlayElement } from '../../store/root';
 import styles from './ResultOverlay.module.scss';
 
@@ -11,7 +11,7 @@ const ResultOverlay = () => {
   setTimeout(() => {
     // このオーバーレイを削除する
     setOverlayElement(null);
-  }, 3000);
+  }, 4000);
 
   return (
     <div classList={{ [styles.host]: true, [styles.hide]: getIsHidden() }}>
